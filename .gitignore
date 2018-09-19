@@ -1,0 +1,7 @@
+.idea/**/*.*
+**/*.iml
+**/*.log
+.settings/*
+.project/*
+**/out/*
+**/*.bak
