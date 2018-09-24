@@ -1,21 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2018 sp1 (http://www.altova.com) by Falcrum (SC) -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:ns1="http://services.memorynotfound.com/"
+           xmlns:jxb="http://java.sun.com/xml/ns/jaxb" jxb:version="2.1"
            targetNamespace="http://services.memorynotfound.com/"
            elementFormDefault="qualified">
-
-
-    <xs:complexType name="CourseRequest">
+    <xs:element name="CourseRequest">
+        <xs:annotation>
+            <xs:appinfo>
+                <jxb:class>
+                    <jxb:javadoc>This is my comment for a class</jxb:javadoc>
+                </jxb:class>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:int" nillable="false">
+                    <xs:annotation>
+                        <xs:appinfo>
+                            <jxb:property>
+                                <jxb:javadoc>request id</jxb:javadoc>
+                            </jxb:property>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="CourseResponse">
+    <xs:complexType>
         <xs:sequence>
-            <xs:element name="id" type="xs:int" nillable="false"/>
+            <xs:element name="id" type="xs:int">
+                <xs:annotation>
+                    <xs:documentation>response if</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="name" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>response "name"</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="description" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>response 'description'</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="created" type="xs:dateTime">
+                <xs:annotation>
+                    <xs:documentation>response datetime</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="exrate" type="ns1:ForeignExchangeTerms32">
+                <xs:annotation>
+                    <xs:documentation>response rate</xs:documentation>
+                </xs:annotation>
+            </xs:element>
         </xs:sequence>
     </xs:complexType>
-
-    <xs:complexType name="CourseResponse">
+    </xs:element>
+    <xs:simpleType name="ActiveOrHistoricCurrencyAndAmount_SimpleType">
+        <xs:restriction base="xs:decimal">
+            <xs:fractionDigits value="5"/>
+            <xs:totalDigits value="18"/>
+            <xs:minInclusive value="0"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="ActiveOrHistoricCurrencyAndAmount">
+        <xs:simpleContent>
+            <xs:extension base="ns1:ActiveOrHistoricCurrencyAndAmount_SimpleType">
+                <xs:attribute name="Ccy" type="xs:string" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="ForeignExchangeTerms32">
+        <xs:annotation>
+            <xs:documentation><![CDATA[Information needed to process a currency exchange or conversion.]]></xs:documentation>
+        </xs:annotation>
         <xs:sequence>
-            <xs:element name="id" type="xs:int"/>
-            <xs:element name="name" type="xs:string"/>
-            <xs:element name="description" type="xs:string"/>
-            <xs:element name="created" type="xs:dateTime"/>
+            <xs:element name="XchgRate" type="ns1:ActiveOrHistoricCurrencyAndAmount">
+                <xs:annotation>
+                    <xs:documentation><![CDATA[Factor used for the conversion of an amount from one currency into another. This reflects that amount of the quoted currency that can be purchased with one unit of the unit currency, as follows: 1 x CUR1 = nnn x CUR2, where: CUR1 is the unit currency, CUR2 is the quoted currency, nnn is the exchange rate. 1 x UnitCcy = XchgRate x QtdCcy.]]></xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="XchgTp" type="ns1:scCurrenciesExchangeTypes">
+                <xs:annotation>
+                    <xs:documentation><![CDATA[Type of currency conversion.]]></xs:documentation>
+                </xs:annotation>
+            </xs:element>
         </xs:sequence>
     </xs:complexType>
-
+    <xs:simpleType name="scCurrenciesExchangeTypes">
+        <xs:annotation>
+            <xs:documentation>Specifies the type of currencies exchange.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="CASH"/>
+            <xs:enumeration value="CLES"/>
+            <xs:enumeration value="CACL"/>
+            <xs:enumeration value="CLCA"/>
+            <xs:enumeration value="CARD"/>
+            <xs:enumeration value="ATMX"/>
+            <xs:enumeration value="PRMA"/>
+            <xs:enumeration value="CBNK"/>
+            <xs:enumeration value="SCTK"/>
+            <xs:enumeration value="OTCD"/>
+            <xs:enumeration value="REUT"/>
+        </xs:restriction>
+    </xs:simpleType>
 </xs:schema>
